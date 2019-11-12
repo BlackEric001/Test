@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Main Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <span>
+        Create ASP.NET MVC application the “Calculator”
+
+        Four text fields and button “calculate”. User enters numbers in these fields, clicks this “calculate” button and result of operation is displayed on web page
+
+        Calculation must be performed on backend using web service method call and defined in next order “*”(multiplication), “+” (addition), “/” (division), i.e. for input 2, 5, 4, 7 output is ((2*5) + 4)/7 = 2
+    </span>
+    <br />
+    <br />
+    <b>@ViewData["Err"]</b>
+    <br />
+    <br />
+    <form method="post">
+        <input type="text" id="value1" name="Value1" value="2" />
+        <input type="text" id="value2" name="Value2" value="5" />
+        <input type="text" id="value3" name="Value3" value="4" />
+        <input type="text" id="value4" name="Value4" value="7" />
+        <input type="submit" value="Submit" class="submit" />
+    </form>
+    <br />
+    <br />
+    <b>Result:</b> @ViewData["Result"]
+
+</div>
