@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.DTO;
+using Infrastucture.DTO.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 using Test.Services;
 
 namespace Test
@@ -36,10 +32,14 @@ namespace Test
 
             services.AddTransient<ICalculationService, CalculationService>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddAutoMapper(typeof(CalculationModel));
+            services.AddMvc();
+            services.AddAutoMapper(
+                cfg => { cfg.CreateMap(typeof(InputModel), typeof(CalculationModel)); },
+                Assembly.GetExecutingAssembly());
 
             services.AddRefitRemoteCalculationService();
+
+            services.AddRazorPages().AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,13 +55,13 @@ namespace Test
             }
 
             app.UseStaticFiles();
+            app.UseRouting();
+            app.UseCors();
             app.UseCookiePolicy();
 
-            app.UseMvc(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
