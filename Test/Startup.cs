@@ -33,9 +33,6 @@ namespace Test
             services.AddTransient<ICalculationService, CalculationService>();
 
             services.AddMvc();
-            services.AddAutoMapper(
-                cfg => { cfg.CreateMap(typeof(InputModel), typeof(CalculationModel)); },
-                Assembly.GetExecutingAssembly());
 
             services.AddRefitRemoteCalculationService();
 
